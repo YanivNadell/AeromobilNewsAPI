@@ -1,0 +1,16 @@
+[
+    {
+        "title": "This Is A Test Title",
+        "content": "This Is The Example Content Of News Number - 1",
+        "date": "11.7.2023",
+        "time": "10:57",
+        "color": "Default"
+    },
+    {
+        "title": "This Is Another Test Title",
+        "content": "This Is The Long Example Content For News Number - 2 This Is The Long Example Content For News Number - 2 This Is The Long Example Content For News Number - 2 This Is The Long Example Content For News Number - 2 This Is The Long Example Content For News Number - 2",
+        "date": "11.7.2023",
+        "time": "11:10",
+        "color": "Default"
+    }
+]
