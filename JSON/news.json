@@ -12,5 +12,19 @@
         "date": "11.7.2023",
         "time": "11:10",
         "color": "Default"
+    },
+    {
+        "title": "This Is A Yellow Massage",
+        "content": "I am yellow!!!",
+        "date": "11.7.2023",
+        "time": "11:10",
+        "color": "yellow"
+    },
+    {
+        "title": "This Is A Ted Massage",
+        "content": "I am Red!!!",
+        "date": "11.7.2023",
+        "time": "11:10",
+        "color": "red"
     }
 ]
