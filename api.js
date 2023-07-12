@@ -60,11 +60,11 @@ app.get("/:key/:func/:title", (req, res) => {
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
             if(req.params.func == "remove") {
                 if(News.filter(obj => obj.title == req.params.title).length > 0){
-                    res.write("You Removed This News: \n" + JSON.stringify(News.filter(obj => obj.title == req.params.title)));
+                    res.write(JSON.stringify(News.filter(obj => obj.title == req.params.title)));
                     fs.writeFileSync('./JSON/news.json', JSON.stringify(News.filter(obj => obj.title !== req.params.title)));
                     logger.error({
-                        message: 'News With The Title "' + req.params.title + '" \nRemoved By ' + req.ip + "\nNew JSON:",
-                        description: "```JSON\n" + JSON.stringify(News.filter(obj => obj.title !== req.params.title)) + "\n```"
+                        message: 'News With The Title "' + req.params.title + '" Got Removed!',
+                        description: "Removed By: " + req.ip + " From " + geoip.lookup(req.ip).country + "\nNew JSON:" + "\n```JSON\n" + JSON.stringify(News.filter(obj => obj.title !== req.params.title), null, 4) + "\n```"
                     });
                 }
                 else res.write("News With The Title " + '"' + req.params.title + '"' + " Dose Not Exist.");
