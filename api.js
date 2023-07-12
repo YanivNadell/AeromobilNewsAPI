@@ -3,6 +3,7 @@ const cors = require('cors');
 const fs = require('fs');
 const DiscordLogger = require('node-discord-logger').default;
 const os = require('os')
+const geoip = require('geoip-country');
 
 const logger = new DiscordLogger({
   hook: 'https://discord.com/api/webhooks/1128638927654371389/mk1cFfGZ1ZtUY4-jVhNSEb6bz1Z3a2lr50D35sOr10VGughpEqy1kaqKPnPoPWmeQ4mh',
@@ -30,12 +31,19 @@ app.get("/", (req, res) => {
     res.end();
 });
 
+const Welcom_txt = fs.readFileSync("./Text/Welcome.txt");
 app.get("/:key", (req, res) => {
-    if(req.params.key == process.env.key){
-        res.write("Correct Key!");
-    } else {
-        res.write("Incorrect Key!");
-        if(req.params.key.length > 0) logger.warn({ message: 'IP - ' + req.ip + " tried to access the API" });
+    if(req.params.key != "favicon.ico" && req.params.key > 0){
+        if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
+            res.write(Welcom_txt);
+        } 
+        else if(req.params.key != process.env.key) {
+            res.write("Error");
+            logger.warn({ 
+                message: "IP - " + req.ip + " From - " + geoip.lookup(req.ip).country + " tried to access the API",
+                description: "Key - " + req.params.key
+            });
+        }
     }
     res.end();
 });
@@ -47,10 +55,15 @@ app.get("/:key/:func", (req, res) => {
             res.write(NewsJson);
         }
         else{
-            res.write("There Is No " + req.params.func + " Functions.");
+            res.write("There Is No " + '"' + req.params.func + '"' + " Function.");
         }
-    } else {
+    } 
+    else if(req.params.key != "favicon.ico" && req.params.key > 0) {
         res.write("Incorrect Key!");
+        logger.warn({ 
+            message: "IP - " + req.ip + " From - " + geoip.lookup(req.ip).country + " tried to access the API" ,
+            description: "Key - " + req.params.key + "\nFunction - " + req.params.func
+        });
     }
     res.end();
 });
