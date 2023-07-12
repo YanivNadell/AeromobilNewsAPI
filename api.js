@@ -38,6 +38,7 @@ app.get("/news", (req, res) => {
 
 const Welcom_txt = fs.readFileSync("./Text/Welcome.txt");
 app.get("/:key", (req, res) => {
+    Welcom_txt = fs.readFileSync("./Text/Welcome.txt");
     if(req.params.key != "favicon.ico" && req.params.key.length > 0){
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
             res.write(Welcom_txt);
@@ -58,7 +59,7 @@ app.get("/:key/:func/:title", (req, res) => {
     if(req.params.key != "favicon.ico" && req.params.key.length > 0){
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
             if(req.params.func == "remove") {
-                res.write(JSON.stringify(News.filter(obj => obj.title !== req.params.title)));
+                res.write(JSON.stringify(News.filter(obj => obj.title == req.params.title)));
                 fs.writeFileSync('./JSON/news.json', JSON.stringify(News.filter(obj => obj.title !== req.params.title)));
             } 
                 
