@@ -37,7 +37,7 @@ app.get("/:key", (req, res) => {
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
             res.write(Welcom_txt);
         } 
-        else if(req.params.key != process.env.key) {
+        else {
             res.write("Error");
             logger.warn({ 
                 message: "IP - " + req.ip + " From - " + geoip.lookup(req.ip).country + " tried to access the API",
@@ -50,20 +50,18 @@ app.get("/:key", (req, res) => {
 
 const NewsJson = fs.readFileSync("./JSON/news.json", "utf8");
 app.get("/:key/:func", (req, res) => {
-    if(req.params.key == process.env.key){
-        if(req.params.func == "all"){
-            res.write(NewsJson);
+    if(req.params.key != "favicon.ico" && req.params.key.length > 0){
+        if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
+            if(req.params.func == "all") res.write(NewsJson);
+            else res.write("There Is No " + '"' + req.params.func + '"' + " Function.");
+        } 
+        else {
+            res.write("Error");
+            logger.warn({ 
+                message: "IP - " + req.ip + " From - " + geoip.lookup(req.ip).country + " tried to access the API" ,
+                description: "Key - " + req.params.key + "\nFunction - " + req.params.func
+            });
         }
-        else{
-            res.write("There Is No " + '"' + req.params.func + '"' + " Function.");
-        }
-    } 
-    else if(req.params.key != "favicon.ico" && req.params.key.length > 0) {
-        res.write("Incorrect Key!");
-        logger.warn({ 
-            message: "IP - " + req.ip + " From - " + geoip.lookup(req.ip).country + " tried to access the API" ,
-            description: "Key - " + req.params.key + "\nFunction - " + req.params.func
-        });
     }
     res.end();
 });
