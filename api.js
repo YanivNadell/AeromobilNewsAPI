@@ -15,6 +15,16 @@ app.get("/", (req, res) => {
     res.end();
 });
 
+console.log(`Your port is ${process.env.key}`);
+app.get("/:key/", (req, res) => {
+    if(req.params.key == process.env.key){
+        res.write("Correct Key!");
+    } else {
+        res.write("Incorrect Key!");
+    }
+    res.end();
+  });
+
 //------------------------------------------------------------------------
 
 var listener = app.listen(8080, function () {
