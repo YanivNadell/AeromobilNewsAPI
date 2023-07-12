@@ -57,9 +57,8 @@ const News = JSON.parse(NewsJson)
 app.get("/:key/:func/:title", (req, res) => {
     if(req.params.key != "favicon.ico" && req.params.key.length > 0){
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
-            if(req.params.func == "all") res.write(NewsJson);
             if(req.params.func == "remove") {
-                res.write(News.filter(obj => obj.title !== req.params.title));
+                res.write(JSON.stringify(News.filter(obj => obj.title !== req.params.title)));
                 fs.writeFileSync('./JSON/news.json', JSON.stringify(News.filter(obj => obj.title !== req.params.title)));
             } 
                 
