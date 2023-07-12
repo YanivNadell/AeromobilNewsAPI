@@ -96,7 +96,7 @@ app.get("/:key/:func/:title/:content/:date/:time/:color", (req, res) => {
                 News.push({
                     "text": "test"
                 })
-                fs.writeFileSync('./JSON/news.json', News, null, 4);
+                fs.writeFileSync('./JSON/news.json', JSON.stringify(News), null, 4);
             }    
             else res.write("There Is No " + '"' + req.params.func + '"' + " Function.");
         } 
