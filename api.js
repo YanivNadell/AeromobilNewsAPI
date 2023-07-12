@@ -30,15 +30,15 @@ app.get("/", (req, res) => {
     res.write(Welcome_NoKey_txt);
     res.end();
 });
-const NewsJson = fs.readFileSync("./JSON/news.json", "utf8");
+
 app.get("/news", (req, res) => {
+    const NewsJson = fs.readFileSync("./JSON/news.json", "utf8");
     res.write(NewsJson);
     res.end();
 });
 
 const Welcom_txt = fs.readFileSync("./Text/Welcome.txt");
 app.get("/:key", (req, res) => {
-    Welcom_txt = fs.readFileSync("./Text/Welcome.txt");
     if(req.params.key != "favicon.ico" && req.params.key.length > 0){
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
             res.write(Welcom_txt);
