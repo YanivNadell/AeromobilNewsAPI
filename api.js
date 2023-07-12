@@ -54,7 +54,7 @@ app.get("/:key", (req, res) => {
     res.end();
 });
 
-const News = JSON.parse(NewsJson)
+const News = JSON.parse(fs.readFileSync("./JSON/news.json", "utf8"))
 app.get("/:key/:func/:title", (req, res) => {
     if(req.params.key != "favicon.ico" && req.params.key.length > 0){
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
