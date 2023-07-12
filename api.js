@@ -64,7 +64,7 @@ app.get("/:key/:func/:title", (req, res) => {
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
             if(req.params.func == "remove") {
                 if(News.filter(obj => obj.title == req.params.title).length > 0){
-                    res.write(JSON.stringify(News.filter(obj => obj.title == req.params.title)));
+                    res.write("This News Got Removed:\n\n" + JSON.stringify(News.filter(obj => obj.title == req.params.title)));
                     fs.writeFileSync('./JSON/news.json', JSON.stringify(News.filter(obj => obj.title !== req.params.title), null, 4));
                     logger.error({
                         message: 'News With The Title "' + req.params.title + '" Got Removed!',
@@ -93,14 +93,16 @@ app.get("/:key/:func/:title/:content/:date/:time/:color", (req, res) => {
     if(req.params.key != "favicon.ico" && req.params.key.length > 0){
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
             if(req.params.func == "add") {
-                News.push({
+                const obj = {
                     "title": req.params.title,
                     "content": req.params.content,
                     "date": req.params.date,
                     "time": req.params.time,
                     "color": req.params.color
-                })
+                }
+                News.push(obj)
                 fs.writeFileSync('./JSON/news.json', JSON.stringify(News), null, 4);
+                res.write("This News Got Added:\n\n" + JSON.stringify(obj), null, 4);
                 logger.debug({
                     message: 'News With The Title "' + req.params.title + '" Got Added!',
                     description: "Added By: " + req.ip + " From " + geoip.lookup(req.ip).country + "\nNew JSON:" + "\n```JSON\n" + JSON.stringify(News, null, 4) + "\n```"
