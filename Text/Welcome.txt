@@ -5,6 +5,7 @@ API is online!
 View all news as JSON -> https://www.api.aeromobilnews.livtoair.dev/news
 
 Add news to JSON file -> Type "/add/{Title}/{Content}/{date}/{time}/{color}" after your key in the URL
+Colors: Default, Yellow, Red
 
 Remove news from JSON file -> Type "/remove/{Title}" after your key in the URL
 
