@@ -54,5 +54,61 @@
         "date": "11.7.2023",
         "time": "11:10",
         "color": "Default"
+    },
+    {
+        "title": "This Is A Test Title",
+        "content": "This Is The Example Content Of News Number - 1",
+        "date": "11.7.2023",
+        "time": "10:57",
+        "color": "Default"
+    },
+    {
+        "title": "This Is Another Test Title",
+        "content": "This Is The Long Example Content For News Number - 2 This Is The Long Example Content For News Number - 2 This Is The Long Example Content For News Number - 2 This Is The Long Example Content For News Number - 2 This Is The Long Example Content For News Number - 2",
+        "date": "11.7.2023",
+        "time": "11:10",
+        "color": "Default"
+    },
+    {
+        "title": "This Is A Yellow Massage",
+        "content": "I am yellow!!!",
+        "date": "11.7.2023",
+        "time": "11:10",
+        "color": "yellow"
+    },
+    {
+        "title": "This Is A Ted Massage",
+        "content": "I am Red!!!",
+        "date": "11.7.2023",
+        "time": "11:10",
+        "color": "red"
+    },
+    {
+        "title": "Scrolling Test 1",
+        "content": "OMG! The scrolling works!!",
+        "date": "11.7.2023",
+        "time": "11:10",
+        "color": "red"
+    },
+    {
+        "title": "Scrolling Test 2",
+        "content": "OMG! The scrolling works So Good",
+        "date": "11.7.2023",
+        "time": "11:10",
+        "color": "red"
+    },
+    {
+        "title": "Scrolling Test 3",
+        "content": "How Did You Got To Me????",
+        "date": "11.7.2023",
+        "time": "11:10",
+        "color": "red"
+    },
+    {
+        "title": "Scrolling Test 4",
+        "content": "I give up! I just Give up! this is working! I give up! I just Give up! this is working! I give up! I just Give up! this is working! I give up! I just Give up! this is working! I give up! I just Give up! this is working!",
+        "date": "11.7.2023",
+        "time": "11:10",
+        "color": "Default"
     }
 ]
