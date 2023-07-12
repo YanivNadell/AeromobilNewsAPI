@@ -94,9 +94,17 @@ app.get("/:key/:func/:title/:content/:date/:time/:color", (req, res) => {
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
             if(req.params.func == "add") {
                 News.push({
-                    "text": "test"
+                    "title": req.params.title,
+                    "content": req.params.content,
+                    "date": req.params.date,
+                    "time": req.params.time,
+                    "color": req.params.color
                 })
                 fs.writeFileSync('./JSON/news.json', JSON.stringify(News), null, 4);
+                logger.debug({
+                    message: 'News With The Title "' + req.params.title + '" Got Added!',
+                    description: "Added By: " + req.ip + " From " + geoip.lookup(req.ip).country + "\nNew JSON:" + "\n```JSON\n" + JSON.stringify(News, null, 4) + "\n```"
+                });
             }    
             else res.write("There Is No " + '"' + req.params.func + '"' + " Function.");
         } 
