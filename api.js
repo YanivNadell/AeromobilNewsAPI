@@ -30,6 +30,11 @@ app.get("/", (req, res) => {
     res.write(Welcome_NoKey_txt);
     res.end();
 });
+const NewsJson = fs.readFileSync("./JSON/news.json", "utf8");
+app.get("/news", (req, res) => {
+    res.write(NewsJson);
+    res.end();
+});
 
 const Welcom_txt = fs.readFileSync("./Text/Welcome.txt");
 app.get("/:key", (req, res) => {
@@ -40,7 +45,7 @@ app.get("/:key", (req, res) => {
         else {
             res.write("Error");
             logger.warn({ 
-                message: "IP - " + req.ip + " From - " + geoip.lookup(req.ip).country + " tried to access the API",
+                message: "IP - " + req.ip + " From " + geoip.lookup(req.ip).country + " tried to access the API",
                 description: "Key - " + req.params.key
             });
         }
@@ -48,17 +53,22 @@ app.get("/:key", (req, res) => {
     res.end();
 });
 
-const NewsJson = fs.readFileSync("./JSON/news.json", "utf8");
-app.get("/:key/:func", (req, res) => {
+const News = JSON.parse(NewsJson)
+app.get("/:key/:func/:title", (req, res) => {
     if(req.params.key != "favicon.ico" && req.params.key.length > 0){
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
             if(req.params.func == "all") res.write(NewsJson);
+            if(req.params.func == "remove") {
+                res.write(News.filter(obj => obj.title !== req.params.title));
+                fs.writeFileSync('./JSON/news.json', JSON.stringify(News.filter(obj => obj.title !== req.params.title)));
+            } 
+                
             else res.write("There Is No " + '"' + req.params.func + '"' + " Function.");
         } 
         else {
             res.write("Error");
             logger.warn({ 
-                message: "IP - " + req.ip + " From - " + geoip.lookup(req.ip).country + " tried to access the API" ,
+                message: "IP - " + req.ip + " From " + geoip.lookup(req.ip).country + " tried to access the API" ,
                 description: "Key - " + req.params.key + "\nFunction - " + req.params.func
             });
         }
