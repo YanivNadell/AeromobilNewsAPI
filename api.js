@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
 
 const Welcom_txt = fs.readFileSync("./Text/Welcome.txt");
 app.get("/:key", (req, res) => {
-    if(req.params.key != "favicon.ico" && req.params.key > 0){
+    if(req.params.key != "favicon.ico" && req.params.key.length > 0){
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
             res.write(Welcom_txt);
         } 
@@ -58,7 +58,7 @@ app.get("/:key/:func", (req, res) => {
             res.write("There Is No " + '"' + req.params.func + '"' + " Function.");
         }
     } 
-    else if(req.params.key != "favicon.ico" && req.params.key > 0) {
+    else if(req.params.key != "favicon.ico" && req.params.key.length > 0) {
         res.write("Incorrect Key!");
         logger.warn({ 
             message: "IP - " + req.ip + " From - " + geoip.lookup(req.ip).country + " tried to access the API" ,
