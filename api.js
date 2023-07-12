@@ -59,7 +59,7 @@ app.get("/:key/:func/:title", (req, res) => {
     if(req.params.key != "favicon.ico" && req.params.key.length > 0){
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
             if(req.params.func == "remove") {
-                if(JSON.stringify(News.filter(obj => obj.title !== req.params.title)).includes(req.params.title) == true){
+                if(News.filter(obj => obj.title == req.params.title).length > 0){
                     res.write(JSON.stringify(News.filter(obj => obj.title == req.params.title)));
                     fs.writeFileSync('./JSON/news.json', JSON.stringify(News.filter(obj => obj.title !== req.params.title)));
                     logger.error({
