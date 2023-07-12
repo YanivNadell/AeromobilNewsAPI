@@ -1,0 +1,12 @@
+API is online!
+
+--------------  API Functions:  --------------
+
+View all news as JSON -> Type "/all" after your key in the URL
+
+Add news to JSON file -> Type "/add/{Title}/{Content}/{date}/{time}/{color}" after your key in the URL
+        - Change The Spaces, "." and ":" to "-"
+
+Remove news from JSON file -> Type "/remove/{Title}" after your key in the URL
+
+API Created For The Aeromobil 3.0 By LivToAir

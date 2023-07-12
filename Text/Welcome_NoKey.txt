@@ -1,0 +1,4 @@
+API is online!
+Type "/{Your_Key}" at the end of the URL to access the full API
+
+API Created For The Aeromobil 3.0 By LivToAir
