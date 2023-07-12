@@ -25,18 +25,21 @@ app.set('trust proxy', true)
 
 //------------------------------------------------------------------------
 
+//Default Page
 const Welcome_NoKey_txt = fs.readFileSync("./Text/Welcome_NoKey.txt");
 app.get("/", (req, res) => {
     res.write(Welcome_NoKey_txt);
     res.end();
 });
 
+//Get News
 app.get("/news", (req, res) => {
     const NewsJson = fs.readFileSync("./JSON/news.json", "utf8");
     res.write(NewsJson);
     res.end();
 });
 
+//Main API Page
 const Welcom_txt = fs.readFileSync("./Text/Welcome.txt");
 app.get("/:key", (req, res) => {
     if(req.params.key != "favicon.ico" && req.params.key.length > 0){
@@ -54,6 +57,7 @@ app.get("/:key", (req, res) => {
     res.end();
 });
 
+//Remove Function
 app.get("/:key/:func/:title", (req, res) => {
     const News = JSON.parse(fs.readFileSync("./JSON/news.json", "utf8"))
     if(req.params.key != "favicon.ico" && req.params.key.length > 0){
@@ -61,13 +65,38 @@ app.get("/:key/:func/:title", (req, res) => {
             if(req.params.func == "remove") {
                 if(News.filter(obj => obj.title == req.params.title).length > 0){
                     res.write(JSON.stringify(News.filter(obj => obj.title == req.params.title)));
-                    fs.writeFileSync('./JSON/news.json', JSON.stringify(News.filter(obj => obj.title !== req.params.title)));
+                    fs.writeFileSync('./JSON/news.json', JSON.stringify(News.filter(obj => obj.title !== req.params.title), null, 4));
                     logger.error({
                         message: 'News With The Title "' + req.params.title + '" Got Removed!',
                         description: "Removed By: " + req.ip + " From " + geoip.lookup(req.ip).country + "\nNew JSON:" + "\n```JSON\n" + JSON.stringify(News.filter(obj => obj.title !== req.params.title), null, 4) + "\n```"
                     });
                 }
                 else res.write("News With The Title " + '"' + req.params.title + '"' + " Dose Not Exist.");
+            }    
+            else res.write("There Is No " + '"' + req.params.func + '"' + " Function.");
+        } 
+        else {
+            res.write("Error");
+            logger.warn({ 
+                message: "IP - " + req.ip + " From " + geoip.lookup(req.ip).country + " tried to access the API" ,
+                description: "Key - " + req.params.key + "\nFunction - " + req.params.func
+            });
+        }
+    }
+    res.end();
+});
+
+
+//Add Function
+app.get("/:key/:func/:title/:content/:date/:time/:color", (req, res) => {
+    const News = JSON.parse(fs.readFileSync("./JSON/news.json", "utf8"))
+    if(req.params.key != "favicon.ico" && req.params.key.length > 0){
+        if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
+            if(req.params.func == "add") {
+                News.push({
+                    "text": "test"
+                })
+                fs.writeFileSync('./JSON/news.json', News, null, 4);
             }    
             else res.write("There Is No " + '"' + req.params.func + '"' + " Function.");
         } 
