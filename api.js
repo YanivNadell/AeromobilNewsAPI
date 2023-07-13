@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
 
 //Get News
 app.get("/news", (req, res) => {
-    const NewsJson = fs.readFileSync("render@srv-cimo77t9aq083q123dh0-85b947df85-gcnvg:/news/db/news.json", "utf8");
+    const NewsJson = fs.readFileSync("news/db/news.json", "utf8");
     res.write(NewsJson);
     res.end();
 });
@@ -59,13 +59,13 @@ app.get("/:key", (req, res) => {
 
 //Remove Function
 app.get("/:key/:func/:title", (req, res) => {
-    const News = JSON.parse(fs.readFileSync("render@srv-cimo77t9aq083q123dh0-85b947df85-gcnvg:/news/db/news.json", "utf8"))
+    const News = JSON.parse(fs.readFileSync("news/db/news.json", "utf8"))
     if(req.params.key != "favicon.ico" && req.params.key.length > 0){
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
             if(req.params.func == "remove") {
                 if(News.filter(obj => obj.title == req.params.title).length > 0){
                     res.write(JSON.stringify(News.filter(obj => obj.title == req.params.title), null, 4));
-                    fs.writeFileSync('render@srv-cimo77t9aq083q123dh0-85b947df85-gcnvg:/news/db/news.json', JSON.stringify(News.filter(obj => obj.title !== req.params.title), null, 4));
+                    fs.writeFileSync('news/db/news.json', JSON.stringify(News.filter(obj => obj.title !== req.params.title), null, 4));
                     logger.error({
                         message: 'News With The Title "' + req.params.title + '" Got Removed!',
                         description: "Removed By: " + req.ip + " From " + geoip.lookup(req.ip).country + "\nNew JSON:" + "\n```JSON\n" + JSON.stringify(News.filter(obj => obj.title !== req.params.title), null, 4) + "\n```"
@@ -89,7 +89,7 @@ app.get("/:key/:func/:title", (req, res) => {
 
 //Add Function
 app.get("/:key/:func/:title/:content/:date/:time/:color", (req, res) => {
-    const News = JSON.parse(fs.readFileSync("render@srv-cimo77t9aq083q123dh0-85b947df85-gcnvg:/news/db/news.json", "utf8"))
+    const News = JSON.parse(fs.readFileSync("news/db/news.json", "utf8"))
     if(req.params.key != "favicon.ico" && req.params.key.length > 0){
         if(req.params.key == process.env.key && geoip.lookup(req.ip).country == process.env.Country){
             if(req.params.func == "add") {
@@ -101,7 +101,7 @@ app.get("/:key/:func/:title/:content/:date/:time/:color", (req, res) => {
                     "color": req.params.color
                 }
                 News.push(obj)
-                fs.writeFileSync('render@srv-cimo77t9aq083q123dh0-85b947df85-gcnvg:/news/db/news.json', JSON.stringify(News), null, 4);
+                fs.writeFileSync('news/db/news.json', JSON.stringify(News), null, 4);
                 res.write(JSON.stringify(obj), null, 4);
                 logger.debug({
                     message: 'News With The Title "' + req.params.title + '" Got Added!',
