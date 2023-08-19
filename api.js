@@ -4,6 +4,7 @@ const fs = require('fs');
 const DiscordLogger = require('node-discord-logger').default;
 const os = require('os')
 const geoip = require('geoip-country');
+const QRCode = require("qrcode");
 
 //npx magic-wormhole
 
@@ -122,6 +123,34 @@ app.get("/:key/:func/:title/:content/:date/:time/:color", (req, res) => {
     }
     res.end();
 });
+
+//------------------------------------------------------------------------
+
+//QR Code
+app.get("/getqr/:qr", (req, res) => {
+    var qr_url;
+    var opts = {
+        errorCorrectionLevel: 'H',
+        type: 'image/jpeg',
+        quality: 1,
+        width: 870,
+        margin: 1,
+        color: {
+            dark:"#000000",
+            light:"#ffffff00"
+        }
+    }
+    QRCode.toDataURL(req.params.qr, opts, function (err, url) {
+        if (err) throw err
+        qr_url = url
+    })
+    const obj = {
+        "qr_url": qr_url,
+    }
+    res.write(JSON.stringify(obj), null, 4);
+    res.end();
+});
+
 
 //------------------------------------------------------------------------
 

@@ -17,6 +17,7 @@
     "geoip-country": "^4.2.4",
     "magic-wormhole": "^1.0.6-ad51cf3-1",
     "node-discord-logger": "^1.2.2",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "qrcode": "^1.5.3"
   }
 }
