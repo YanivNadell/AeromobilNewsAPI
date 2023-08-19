@@ -129,7 +129,7 @@ const QRCode = require("qrcode");
 const crypto = require("crypto");
 
 //QR Code
-app.get("/navigraph/qr/:user_code", (req, res) => {
+app.get("/navigraph-qr/:user_code", (req, res) => {
     var qr_url;
     var opts = {
         errorCorrectionLevel: 'H',
