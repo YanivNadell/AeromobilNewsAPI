@@ -129,7 +129,7 @@ const QRCode = require("qrcode");
 const crypto = require("crypto");
 
 //QR Code
-app.get("/navigraph-qr/:user_code", (req, res) => {
+app.get("/navigraph/qr/:user_code", (req, res) => {
     var qr_url;
     var opts = {
         errorCorrectionLevel: 'H',
@@ -169,7 +169,7 @@ function sha256(buffer) {
 }
 var code_challenge = base64URLEncode(sha256(code_verifier));
 
-app.get("/navigraph-code-challenge", (req, res) => {
+app.get("/navigraph/code-challenge", (req, res) => {
     const obj = {
         "code_challenge": code_challenge,
         "code_verifier": code_verifier
