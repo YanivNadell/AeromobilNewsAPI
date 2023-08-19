@@ -143,12 +143,13 @@ app.get("/getqr/:qr", (req, res) => {
     QRCode.toDataURL(req.params.qr, opts, function (err, url) {
         if (err) throw err
         qr_url = url
+        
+        const obj = {
+            "qr_url": qr_url
+        }
+        res.write(JSON.stringify(obj), null, 4);
+        res.end();
     })
-    const obj = {
-        "qr_url": qr_url,
-    }
-    res.write(JSON.stringify(obj), null, 4);
-    res.end();
 });
 
 
