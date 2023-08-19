@@ -4,7 +4,6 @@ const fs = require('fs');
 const DiscordLogger = require('node-discord-logger').default;
 const os = require('os')
 const geoip = require('geoip-country');
-const QRCode = require("qrcode");
 
 //npx magic-wormhole
 
@@ -125,6 +124,9 @@ app.get("/:key/:func/:title/:content/:date/:time/:color", (req, res) => {
 });
 
 //------------------------------------------------------------------------
+// --- Navigraph --- //
+const QRCode = require("qrcode");
+const crypto = require("crypto");
 
 //QR Code
 app.get("/navigraph-qr/:user_code", (req, res) => {
@@ -150,6 +152,30 @@ app.get("/navigraph-qr/:user_code", (req, res) => {
         res.write(JSON.stringify(obj), null, 4);
         res.end();
     })
+});
+
+//Code Challenge
+function base64URLEncode(str) {
+    return str
+    .toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "");
+}
+var code_verifier = base64URLEncode(crypto.randomBytes(32));
+
+function sha256(buffer) {
+    return crypto.createHash("sha256").update(buffer).digest();
+}
+var code_challenge = base64URLEncode(sha256(code_verifier));
+
+app.get("/navigraph-code-challenge", (req, res) => {
+    const obj = {
+        "code_challenge": code_challenge,
+        "code_verifier": code_verifier
+    }
+    res.write(JSON.stringify(obj), null, 4);
+    res.end();
 });
 
 
