@@ -127,7 +127,7 @@ app.get("/:key/:func/:title/:content/:date/:time/:color", (req, res) => {
 //------------------------------------------------------------------------
 
 //QR Code
-app.get("/getqr/:qr", (req, res) => {
+app.get("/navigraph-qr/:user_code", (req, res) => {
     var qr_url;
     var opts = {
         errorCorrectionLevel: 'H',
@@ -140,10 +140,10 @@ app.get("/getqr/:qr", (req, res) => {
             light:"#ffffff00"
         }
     }
-    QRCode.toDataURL(req.params.qr, opts, function (err, url) {
+    QRCode.toDataURL("https://identity.api.navigraph.com/code/default.aspx?user_code="+req.params.user_code, opts, function (err, url) {
         if (err) throw err
         qr_url = url
-        
+
         const obj = {
             "qr_url": qr_url
         }
